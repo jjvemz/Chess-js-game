@@ -23,8 +23,8 @@
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
-    "@nestjs/platform-socket.io": "^10.4.8",
-    "@nestjs/websockets": "^10.4.8",
+    "@nestjs/platform-socket.io": "^10.4.9",
+    "@nestjs/websockets": "^10.4.9",
     "backendchess": "file:",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
