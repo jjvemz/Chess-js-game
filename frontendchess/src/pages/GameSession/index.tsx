@@ -1,7 +1,11 @@
 import React from "react";
 
 const GameSession = () => {
-  return <div>GameSession</div>;
+  return(
+  <>
+    <div>GameSession</div>
+  </>
+);
 };
 
 export default GameSession;
