@@ -7,6 +7,7 @@ import { useDrop } from 'react-dnd';
 import { handleMove } from '../../../utils/Game';
 import { gameSubject } from '../../../utils/Game';
 import Promote from '../Promote';
+import './BoardSquare.css'
 
 export default function BoardSquare({
     piece,

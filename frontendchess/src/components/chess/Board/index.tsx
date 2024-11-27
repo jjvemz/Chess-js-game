@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import BoardSquare from '../BoardSquare';
+import './board.css'
 
 interface BoardProps {
   board: any[][]; // Replace `any` with the specific type of your board elements if known

@@ -1,5 +1,6 @@
 import React from "react";
 import { useDrag, DragPreviewImage, DragSourceMonitor } from "react-dnd";
+import './Piece.css'
 
 interface PieceProps {
   piece: { type: string; color: string };
@@ -28,7 +29,6 @@ export default function Piece({ piece: { type, color }, position }: PieceProps) 
       }),
     });
 
-    // Assuming images are in the public/assets directory
     const pieceImg = `/assets/${type}_${color}.png`;
 
     return (
