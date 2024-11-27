@@ -1,28 +1,50 @@
 import React from "react";
-import { useDrag, DragPreviewImage } from "react-dnd";
+import { useDrag, DragPreviewImage, DragSourceMonitor } from "react-dnd";
 
-export default function Piece({ piece: { type, color }, position }) {
-  const [{ isDragging }, drag, preview] = useDrag({
-    item: {
+interface PieceProps {
+  piece: { type: string; color: string };
+  position: string;
+}
+
+interface DragItem {
+  type: string;
+  id: string;
+}
+
+export default function Piece({ piece: { type, color }, position }: PieceProps) {
+  try {
+    if (!type || !color) {
+      throw new Error(`Missing piece properties: type = ${type}, color = ${color}`);
+    }
+
+    const [{ isDragging }, drag, preview] = useDrag<DragItem, unknown, { isDragging: boolean }>({
       type: "piece",
-      id: `${position}_${type}_${color}`,
-    },
-    collect: (monitor) => {
-      return { isDragging: !!monitor.isDragging() };
-    },
-  });
-  const pieceImg = `./assets/${type}_${color}.png`;
+      item: {
+        type: "piece",
+        id: `${position}_${type}_${color}`,
+      },
+      collect: (monitor: DragSourceMonitor<DragItem, unknown>) => ({
+        isDragging: !!monitor.isDragging(),
+      }),
+    });
 
-  return (
-    <>
-      <DragPreviewImage connect={preview} src={pieceImg} />
-      <div
-        className="piece-container"
-        ref={drag}
-        style={{ opacity: isDragging ? 0 : 1 }}
-      >
-        <img src={pieceImg} alt="" className="piece" />
-      </div>
-    </>
-  );
+    // Assuming images are in the public/assets directory
+    const pieceImg = `/assets/${type}_${color}.png`;
+
+    return (
+      <>
+        <DragPreviewImage connect={preview} src={pieceImg} />
+        <div
+          className="piece-container"
+          ref={drag}
+          style={{ opacity: isDragging ? 0 : 1 }}
+        >
+          <img src={pieceImg} alt={`${type} ${color}`} className="piece" />
+        </div>
+      </>
+    );
+  } catch (error) {
+    console.error("Error in Piece component:", error);
+    return <div>Error loading piece</div>;
+  }
 }

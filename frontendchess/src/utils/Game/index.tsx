@@ -1,13 +1,20 @@
-import * as Chess from 'chess.js';
+import { Chess } from 'chess.js';
 import { BehaviorSubject } from 'rxjs';
 import socket from '../sockets';
 
 const chess = new Chess();
 
-export const gameSubject = new BehaviorSubject()
+export const gameSubject = new BehaviorSubject({
+  board: [],
+  isGameOver: false,
+  turn: 'w',
+  result: null,
+  fen: chess.fen(), 
+  pendingPromotion: null,
+})
 
 function updateGame(pendingPromotion) {
-    const isGameOver = chess.game_over()
+    const isGameOver = chess.isGameOver()
 
     const newGame = {
         board: chess.board(),
@@ -42,22 +49,6 @@ function getGameResult() {
     }
 }
 
-export function updateGame(pendingPromotion){
-    const isGameOver = chess.game_over();
-    
-    const newGame={
-        board: chess.board(),
-        pendingPromotion,
-        isGameOver,
-        turn: chess.turn(),
-        result : isGameOver ? getGameResult() : null,
-        fen: chess.fen()
-    }
-
-    localStorage.setItem('savedGame', chess.fen());
-    gameSubject.next(newGame);
-}
-
 export function move(from, to, promotion) {
     let tempMove = { from, to };
     if (promotion) {
@@ -86,6 +77,8 @@ export function handleMove(from, to) {
   }
 
   export function initGame(roomId) {
+    updateGame();
+  
     socket.emit('joinRoom', { roomId });
   
     socket.on('gameState', (serverGameState) => {
@@ -96,11 +89,12 @@ export function handleMove(from, to) {
     socket.on('opponentMove', (serverMove) => {
       chess.move(serverMove);
       updateGame();
-    });
+    }); 
+  }
   
+
     export function resetGame() {
-        chess.reset();
-        socket.emit('resetGame'); 
-        updateGame();
-      }
+      chess.reset();
+      socket.emit('resetGame'); 
+      updateGame();
     }
