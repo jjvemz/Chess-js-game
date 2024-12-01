@@ -1,17 +1,13 @@
-import React from 'react'
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import GameSessionsSection from "../../sections/GameSessionsSection";
 
 const SessionLayout = () => {
   return (
     <>
-      <Header/>
-        <body>
-          
-        </body>
-      <Footer/>
+      <main>
+        <GameSessionsSection />
+      </main>
     </>
-  )
-}
+  );
+};
 
 export default SessionLayout;

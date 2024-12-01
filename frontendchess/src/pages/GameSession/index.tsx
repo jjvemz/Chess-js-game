@@ -1,11 +1,7 @@
-import React from "react";
+import GameSessionsSection from "../../sections/GameSessionsSection";
 
 const GameSession = () => {
-  return(
-  <>
-    <div>GameSession</div>
-  </>
-);
+  return <GameSessionsSection />;
 };
 
 export default GameSession;

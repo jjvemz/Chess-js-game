@@ -1,4 +1,3 @@
-import React from "react";
 import { useDrag, DragPreviewImage, DragSourceMonitor } from "react-dnd";
 import './Piece.css'
 
