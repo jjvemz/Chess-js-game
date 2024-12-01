@@ -37,7 +37,7 @@ export const gameSubject = new BehaviorSubject<GameState>({
 let playerColor: 'w' | 'b' = 'w';
 
 /**
- * @param {PendingPromotion | null} pendingPromotion - The pending promotion details, if any.
+ * @param {PendingPromotion | null} pendingPromotion
  */
 function updateGame(pendingPromotion: PendingPromotion | null = null): void {
   const isGameOver = chess.isGameOver();
@@ -138,9 +138,7 @@ export function initGame(roomId: string): void {
   });
 }
 
-/**
- * Resets the game to its initial state.
- */
+
 export function resetGame(): void {
   chess.reset();
   socket.emit('resetGame');
