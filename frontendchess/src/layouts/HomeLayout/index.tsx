@@ -3,9 +3,9 @@ import MatchMakingSection from "../../sections/HomeSections/MatchMakingSection";
 
 function HomeLayout() {
  return(
-  <div>
+  <section>
     <MatchMakingSection />
-  </div>
+  </section>
  );
 }
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./MatchMaking.css";
 
 const MatchMakingSection = () => {
   const navigate = useNavigate();
@@ -22,22 +23,25 @@ const MatchMakingSection = () => {
   };
 
   return (
-    <section>
-      <div className="host-session">
-        <button onClick={hostGame}>Hostear</button>
+      <div className="main-row">
+        <div className="column-session">
+          <button onClick={hostGame}>Hostear</button>
+        </div>
+        <div className="column-session">
+          <button className="join-button">Unirse</button>
+          <div className="form-container">
+            <form onSubmit={joinGame}>
+              <input
+                type="text"
+                value={sessionId}
+                onChange={(e) => setSessionId(e.target.value)}
+                placeholder="Ingrese el ID de la sesión"
+              />
+              <button type="submit">Ingresar</button>
+            </form>
+          </div>
+        </div>
       </div>
-      <div className="join-session">
-        <form onSubmit={joinGame}>
-          <input
-            type="text"
-            value={sessionId}
-            onChange={(e) => setSessionId(e.target.value)}
-            placeholder="Ingrese el ID de la sesión"
-          />
-          <button type="submit">Unirse</button>
-        </form>
-      </div>
-    </section>
   );
 };
 

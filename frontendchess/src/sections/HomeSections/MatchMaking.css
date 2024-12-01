@@ -1,0 +1,28 @@
+.main-row {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    margin-top: 20px; 
+  }
+  
+  h2 {
+    text-align: center; 
+    margin-bottom: 20px;
+  }
+
+  .column-session {
+    margin: 0 10px; 
+  }
+  
+  .form-container {
+    display: none; 
+  }
+  
+  .join-button:hover + .form-container {
+    display: block; 
+    position: absolute; 
+    background-color: white;
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    z-index: 1; 
+  }
