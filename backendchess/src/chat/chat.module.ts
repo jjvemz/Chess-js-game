@@ -1,10 +1,8 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { ChatGateway } from './chat-gateway';
 
 @Module({
-    providers:[ChatGateway]
+  providers: [ChatGateway],
 })
-export class ChatModule {
-    
-}
-
+export class ChatModule {}
