@@ -2,7 +2,7 @@ import React from 'react'
 
 const WebCam = () => {
   return (
-    <div>WebCam</div>
+    <div></div>
   )
 }
 
