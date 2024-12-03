@@ -10,6 +10,9 @@
 .message-container {
     display: flex;
     flex-direction: column;
+    min-height: 300px;
+    background-color: #29317ea4;
+
 }
   
 .message {
@@ -43,15 +46,15 @@
   
 .message input {
     width: calc(100% - 20px);
-    padding: 8px;
-    margin: 10px;
+    padding: 16px;
+    margin: 5px;
     border: 1px solid #ddd;
     border-radius: 5px;
 }
   
 .message button {
-    padding: 8px;
-    margin: 10px;
+    padding: 16px;
+    margin: 1px;
     background-color: #0d2163;
     color: #fff;
     border: none;

@@ -11,10 +11,8 @@ const Header = () => {
   const isHost = true;
   const handleExit = () => {
     if (isHost) {
-      // Emit the deleteSession event with the roomId
       socket.emit('deleteSession', { roomId: location.pathname.split('/')[2] });
     }
-    // Redirect to the main page
     navigate('/');
   };
 
