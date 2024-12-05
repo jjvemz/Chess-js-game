@@ -1,30 +1,51 @@
 import { useState, useEffect } from "react";
 import { gameSubject, initGame, resetGame } from "../../../utils/Game";
 import Board from "../Board";
+import socket from "../../../utils/sockets";
 
-const Game = (roomId) => {
+const Game = ({ roomId, isHost }: { roomId: string; isHost: boolean }) => {
     const [board, setBoard] = useState<[][]>([]); 
     const [isGameOver, setIsGameOver] = useState<boolean>(false); 
     const [result, setResult] = useState<string | null>(null);
     const [turn, setTurn] = useState<'w' | 'b'>('w');
   
     useEffect(() => {
-      initGame(roomId);
-      const subscription = gameSubject.subscribe((game) => {
-        if (game) {
-          setBoard(game.board || []);
-          setIsGameOver(game.isGameOver || false);
-          setResult(game.result || null);
+      if (roomId) {
+        socket.emit('joinRoom', { roomId });
   
-          if (game.turn === 'w' || game.turn === 'b') {
-            setTurn(game.turn);
-          } else {
-            console.error('Invalid turn value:', game.turn);
+        socket.on('roomFull', () => {
+          alert('Room is full. Redirecting to home.');
+        });
+  
+        socket.on('userJoined', () => {
+          if (isHost) {
+            socket.emit('startGame', { roomId });
           }
-        }
-      });
-      return () => subscription.unsubscribe();
-    }, []);
+        });
+  
+        initGame(roomId);
+  
+        const subscription = gameSubject.subscribe((game) => {
+          if (game) {
+            setBoard(game.board || []);
+            setIsGameOver(game.isGameOver || false);
+            setResult(game.result || null);
+  
+            if (game.turn === 'w' || game.turn === 'b') {
+              setTurn(game.turn);
+            } else {
+              console.error('Invalid turn value:', game.turn);
+            }
+          }
+        });
+  
+        return () => {
+          subscription.unsubscribe();
+          socket.emit('leaveRoom', { roomId });
+        };
+      }
+    }, [roomId, isHost]);
+  
     
   
     return (
@@ -42,9 +63,6 @@ const Game = (roomId) => {
             <Board board={board} turn={turn}/>
           </div>
           {result && <p className="vertical-text">{result}</p>}
-          <div className="chat-box">
-              <div className="webrtc"></div>
-            </div>
         </div>
       </>
     );

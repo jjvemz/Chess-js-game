@@ -2,15 +2,23 @@ import { useState, useEffect } from "react";
 import socket from "../../utils/sockets";
 import "./chat.css";
 
-const Chat = () => {
-  const [messages, setMessages] = useState([]);
+const Chat = ({ roomId }: { roomId: string } ) => {
+  const [messages, setMessages] = useState<string[]>([]);
   const [newMessage, setNewMessage] = useState("");
 
   useEffect(() => {
-    socket.on("message", (message) => {
-      setMessages([...messages, message]);
+    if(roomId){
+      socket.emit('joinRoom', { roomId })
+    }
+
+    socket.on('message', (message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
     });
-  }, [messages]);
+
+    return () => {
+      socket.emit('leaveRoom', { roomId });
+    };
+  }, [roomId]);
 
   const sendMessage = () => {
     socket.emit("message", newMessage);

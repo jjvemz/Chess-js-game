@@ -1,6 +1,6 @@
 import React from 'react'
 
-const WebCam = () => {
+const WebCam = (roomId) => {
   return (
     <div></div>
   )
