@@ -17,7 +17,7 @@ export default function CustomDialog({ open, children, title, contentText, handl
       <DialogActions> {/* Dialog action buttons */}
         {/* Force users to make input without option to cancel */}
         {/* <Button onClick={handleClose}>Cancel</Button> */}
-        <button onClick={handleContinue}>Continue</button>
+        <button onClick={handleContinue}>Continuar</button>
       </DialogActions>
     </Dialog>
   );

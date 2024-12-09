@@ -17,8 +17,8 @@ export default function InitGame({ setRoom, setOrientation, SetPlayers }) {
       <CustomDialog
         open={roomDialogOpen}
         handleClose={() => setRoomDialogOpen(false)}
-        title="Select Room to Join"
-        contentText="Enter a valid room ID to join the room"
+        title="Seleccione el ID de la sala"
+        contentText="Ingrese un ID valido para entrar"
         handleContinue={() => {
           // TODO: IMPLEMENTAR UN JOIN ROOM
           if(!roomInput) return;
