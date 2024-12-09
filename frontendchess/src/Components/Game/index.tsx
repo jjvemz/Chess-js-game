@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback, useEffect } from 'react';
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
 import CustomDialog from '../CustomDialogue';
+import socket from '../../utils/sockets';
 
 function Game({ players, room, orientation, cleanup }){
     const chess = useMemo(()=> new Chess(), []);
@@ -39,6 +40,10 @@ function Game({ players, room, orientation, cleanup }){
     );
 
       const onDrop = (sourceSquare, targetSquare) => {
+        if(chess.turn() !== orientation[0]) return false;
+
+        if(players.length <2) return false;
+
         const moveData = {
             from: sourceSquare,
             to: targetSquare,
@@ -48,6 +53,11 @@ function Game({ players, room, orientation, cleanup }){
         const move = makeAMove(moveData);
 
         if (move === null) return false;
+
+        socket.emit("move", { 
+            move,
+            room,
+          }); 
 
         return true;
     };
