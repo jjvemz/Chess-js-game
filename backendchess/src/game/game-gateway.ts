@@ -29,19 +29,23 @@ export class GameGateway {
   }
 
   @SubscribeMessage('createRoom')
-  async handleCreateRoom(@ConnectedSocket() client: Socket, @MessageBody() callback: (roomId: string) => void): Promise<void> {
+  async handleCreateRoom(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: any,
+    ...args: any[]
+  ): Promise<string | void> {
     const roomId = uuidv4();
     await client.join(roomId);
-
+  
     this.rooms.set(roomId, {
       roomId,
       players: [{ id: client.id, username: client.data?.username }],
     });
-
+  
     console.log(`Room created: ${roomId}, Host joined`);
     console.log('Rooms state:', this.rooms);
-
-    callback(roomId);
+  
+    return roomId;
   }
 
   @SubscribeMessage('JoinRoom')

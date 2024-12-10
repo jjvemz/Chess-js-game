@@ -20,7 +20,6 @@ export default function InitGame({ setRoom, setOrientation, SetPlayers }) {
         title="Seleccione el ID de la sala"
         contentText="Ingrese un ID valido para entrar"
         handleContinue={() => {
-          // TODO: IMPLEMENTAR UN JOIN ROOM
           if(!roomInput) return;
           socket.emit("joinRoom", { roomId: roomInput}, (r) =>{
             if(r.error) return setRoomError(r.message);
@@ -53,12 +52,13 @@ export default function InitGame({ setRoom, setOrientation, SetPlayers }) {
       <Button
         variant="contained"
         onClick={()=>{
-            //TODO: IMPLEMENTAR LA LOGICA PARA UNIRSE CON LA FUNCIÓN EN ESTE BOTON!!
-            socket.emit("createRoom", (r)=>{
-                console.log(r);
-                setRoom(r);
+            socket.emit("createRoom", {}, (roomId) => {
+              if (roomId) {
+                console.log("Room created:", roomId);
+                setRoom(roomId);
                 setOrientation("white");
-            })
+              }
+            });
         }}>
             Comenzar partida
         </Button>

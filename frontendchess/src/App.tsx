@@ -25,7 +25,8 @@ function App() {
       setPlayers(roomData.players);
     });
   }, [])
-  console.log("Variables de entorno: ", import.meta.env.VITE_PORT)
+
+  
   return (
     <Container>
     <CustomDialog
