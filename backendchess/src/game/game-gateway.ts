@@ -86,4 +86,16 @@ export class GameGateway {
     
     return roomUpdate;
   }
+
+  @SubscribeMessage('move')
+  async handleMove(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: { move: any; room: string }
+  ): Promise<void> {
+    const { move, room } = data;
+    console.log(`Move received in room ${room}:`, move);
+    
+    // Broadcast the move to the other player in the room
+    client.to(room).emit('move', move);
+  }
 }

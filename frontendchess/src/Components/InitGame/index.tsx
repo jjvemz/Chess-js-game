@@ -3,7 +3,18 @@ import { useState } from "react";
 import CustomDialog from "../CustomDialogue";
 import socket from "../../utils/sockets";
 
-export default function InitGame({ setRoom, setOrientation, SetPlayers }) {
+interface Player {
+  id: string;
+  username?: string;
+}
+
+interface InitGameProps {
+  setRoom: (roomId: string) => void;
+  setOrientation: (orientation: string) => void;
+  setPlayers: (players: Player[]) => void;
+}
+
+export default function InitGame({ setRoom, setOrientation, setPlayers }: InitGameProps) {
   const [roomDialogOpen, setRoomDialogOpen] = useState(false);
   const [roomInput, setRoomInput] = useState("");
   const [roomError, setRoomError] = useState("");
@@ -30,7 +41,7 @@ export default function InitGame({ setRoom, setOrientation, SetPlayers }) {
             }
             console.log("Join successful. Room data:", response);
             setRoom(response?.roomId);
-            SetPlayers(response?.players);
+            setPlayers(response?.players);
             setOrientation("black");
             setRoomDialogOpen(false);
           });
@@ -50,7 +61,7 @@ export default function InitGame({ setRoom, setOrientation, SetPlayers }) {
         variant="standard"
         error={Boolean(roomError)}
         helperText={
-          !roomError ? "Ingrese el ID de la sasa" : `ID invalido: ${roomError}`
+          !roomError ? "Ingrese el ID de la sala" : `ID invalido: ${roomError}`
         }
       />
       </CustomDialog>
