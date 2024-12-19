@@ -21,26 +21,21 @@ function Game({ players, room, orientation, cleanup }: GameProps) {
     (move) => {
       try {
         const result = chess.move(move);
-        const newFen = chess.fen();
-        console.log('Making move:', move, 'New FEN:', newFen);
-        setFen(newFen);
+        setFen(chess.fen());
 
-        // Only check for game over conditions after the move is made
         if (chess.isGameOver()) {
           if (chess.isCheckmate()) {
-            // Get the player who just made the move (they would be the winner)
-            const winner = chess.turn() === 'w' ? "Negras" : "Blancas";
-            setOver(`Jaque mate! ${winner} Ganan!`);
+            const winner = chess.turn() === "w" ? "Negras" : "Blancas";
+            setOver(`¡Jaque mate! ¡${winner} ganan!`);
           } else if (chess.isDraw()) {
-            setOver("Empate");
+            setOver("¡Empate!");
           } else {
-            setOver("Game over");
+            setOver("Fin del juego");
           }
         }
 
         return result;
       } catch (e) {
-        console.error('Error making move:', e);
         return null;
       }
     },
@@ -48,35 +43,26 @@ function Game({ players, room, orientation, cleanup }: GameProps) {
   );
 
   function onDrop(sourceSquare, targetSquare) {
-    // Check if it's player's turn
     if (chess.turn() !== orientation[0].toLowerCase()) {
-      console.log("Not your turn");
       return false;
     }
 
-    // Check if there are enough players
     if (players.length < 2) {
-      console.log("Waiting for opponent");
       return false;
     }
 
-    // Create move object
     const moveData = {
       from: sourceSquare,
       to: targetSquare,
-      promotion: 'q' // always promote to queen for simplicity
+      promotion: 'q'
     };
 
-    // Try to make the move
     const move = makeAMove(moveData);
 
     if (move === null) {
-      console.log("Invalid move");
       return false;
     }
 
-    // Emit move to other player
-    console.log('Emitting move:', move);
     socket.emit("move", {
       move: moveData,
       room,
@@ -86,16 +72,10 @@ function Game({ players, room, orientation, cleanup }: GameProps) {
   }
 
   useEffect(() => {
-    // Listen for opponent's moves
     socket.on("move", (moveData) => {
-      console.log("Received move from opponent:", moveData);
-      const result = makeAMove(moveData);
-      if (result === null) {
-        console.error('Failed to apply opponent move:', moveData);
-      }
+      makeAMove(moveData);
     });
 
-    // Cleanup listener when component unmounts
     return () => {
       socket.off("move");
     };
@@ -136,7 +116,7 @@ function Game({ players, room, orientation, cleanup }: GameProps) {
         </Stack>
         <CustomDialog 
           open={Boolean(over)}
-          title={over}
+          title="Game Over"
           contentText={over}
           handleContinue={() => {
             socket.emit("closeRoom", { roomId: room });
