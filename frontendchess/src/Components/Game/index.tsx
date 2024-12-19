@@ -116,7 +116,7 @@ function Game({ players, room, orientation, cleanup }: GameProps) {
         </Stack>
         <CustomDialog 
           open={Boolean(over)}
-          title="Game Over"
+          title="¡Partida terminada!"
           contentText={over}
           handleContinue={() => {
             socket.emit("closeRoom", { roomId: room });
