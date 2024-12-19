@@ -49,12 +49,14 @@ export class GameGateway {
   }
 
   @SubscribeMessage('JoinRoom')
-  async handleJoinRoom( @ConnectedSocket() client: Socket,
-   @MessageBody() data : {roomId: string, callback:  (response: any) => void}) :Promise<void>{
-    const { roomId, callback } = data;
+  async handleJoinRoom(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: { roomId: string }
+  ): Promise<any> {
+    const { roomId } = data;
     const room = this.rooms.get(roomId);
-    let error= false;
-    let message = ''; 
+    let error = false;
+    let message = '';
 
     if (!room) {
       error = true;
@@ -68,10 +70,7 @@ export class GameGateway {
     }
 
     if (error) {
-      if (callback) {
-        callback({ error, message });
-      }
-      return;
+      return { error, message };
     }
 
     await client.join(roomId);
@@ -82,9 +81,9 @@ export class GameGateway {
     };
 
     this.rooms.set(roomId, roomUpdate);
-
-    callback(roomUpdate);
-
+    
     client.to(roomId).emit('opponentJoined', roomUpdate);
-   }
+    
+    return roomUpdate;
+  }
 }

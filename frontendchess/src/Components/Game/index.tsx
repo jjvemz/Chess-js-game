@@ -44,7 +44,7 @@ function Game({ players, room, orientation, cleanup }) {
     [chess]
   );
 
-  const onDrop = (sourceSquare, targetSquare) => {
+  function onDrop(sourceSquare, targetSquare){
     if (chess.turn() !== orientation[0]) return false;
 
     if (players.length < 2) return false;

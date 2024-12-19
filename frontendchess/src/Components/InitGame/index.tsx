@@ -21,14 +21,19 @@ export default function InitGame({ setRoom, setOrientation, SetPlayers }) {
         contentText="Ingrese un ID valido para entrar"
         handleContinue={() => {
           if(!roomInput) return;
-          socket.emit("joinRoom", { roomId: roomInput}, (r) =>{
-            if(r.error) return setRoomError(r.message);
-            console.log("response: ", r);
-            setRoom(r?.roomId);
-            SetPlayers(r?.players);
+          console.log('Attempting to join room:', roomInput);
+          socket.emit("JoinRoom", { roomId: roomInput }, (response: any) => {
+            console.log('Response from JoinRoom:', response);
+            if(response?.error) {
+              console.error('Error joining room:', response.message);
+              return setRoomError(response.message);
+            }
+            console.log("Join successful. Room data:", response);
+            setRoom(response?.roomId);
+            SetPlayers(response?.players);
             setOrientation("black");
             setRoomDialogOpen(false);
-          })
+          });
         }}
       >
       <TextField
@@ -52,9 +57,11 @@ export default function InitGame({ setRoom, setOrientation, SetPlayers }) {
       <Button
         variant="contained"
         onClick={()=>{
+            console.log('Attempting to create room');
             socket.emit("createRoom", {}, (roomId) => {
+              console.log('Received response from create room:', roomId);
               if (roomId) {
-                console.log("Room created:", roomId);
+                console.log("Room created successfully:", roomId);
                 setRoom(roomId);
                 setOrientation("white");
               }
