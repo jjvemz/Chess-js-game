@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   WebSocketGateway,
   WebSocketServer,
@@ -96,5 +97,25 @@ export class GameGateway {
     
     // Broadcast the move to the other player in the room
     client.to(room).emit('move', move);
+  }
+
+  @SubscribeMessage('sendMessage')
+  async handleChatMessage(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: { roomId: string; message: string },
+  ): Promise<void> {
+    const { roomId, message } = data;
+
+    if (!this.rooms.has(roomId)) {
+      console.error(`Room ${roomId} does not exist.`);
+      return;
+    }
+
+    client.to(roomId).emit('receiveMessage', {
+      username: client.data.username || 'Anonymous',
+      message,
+    });
+
+    console.log(`Message sent in room ${roomId}:`, message);
   }
 }
