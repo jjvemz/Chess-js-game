@@ -105,17 +105,23 @@ export class GameGateway {
     @MessageBody() data: { roomId: string; message: string },
   ): Promise<void> {
     const { roomId, message } = data;
-
+  
     if (!this.rooms.has(roomId)) {
       console.error(`Room ${roomId} does not exist.`);
       return;
     }
-
+  
+    // Log the incoming message and room ID
+    console.log(`Received message from ${client.data.username} in room ${roomId}: ${message}`);
+  
+    // Emit the message to all clients in the room
     client.to(roomId).emit('receiveMessage', {
       username: client.data.username || 'Anonymous',
       message,
     });
-
+  
+    // Log the emission of the message
     console.log(`Message sent in room ${roomId}:`, message);
+    console.log(`Current players in room ${roomId}:`, this.rooms.get(roomId).players);
   }
 }
