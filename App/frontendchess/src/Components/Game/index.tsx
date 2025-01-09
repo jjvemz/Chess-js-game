@@ -17,7 +17,19 @@ import {
 } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
-function Game({ players, room, orientation, cleanup }) {
+interface Player {
+  id: string;
+  username?: string;
+}
+
+interface GameProps {
+  room: string;
+  orientation: "white" | "black"; // Ensure the correct type for orientation
+  players: Player[];
+  cleanup: () => void;
+}
+
+const Game: React.FC<GameProps> = ({ room, orientation, players, cleanup }) => {
   const chess = useMemo(() => new Chess(), []);
   const [fen, setFen] = useState(chess.fen());
   const [over, setOver] = useState("");
@@ -123,7 +135,8 @@ function Game({ players, room, orientation, cleanup }) {
             <Chessboard
               position={fen}
               onPieceDrop={onDrop}
-              boardOrientation={orientation}/>
+              boardOrientation={orientation} // Ensure the correct type for orientation
+            />
           </div>
           {players.length > 0 && (
             <Box>
@@ -146,7 +159,10 @@ function Game({ players, room, orientation, cleanup }) {
             socket.emit("closeRoom", { roomId: room });
             cleanup();
           }}
-        />
+          handleClose={() => setOver("")} // Add handleClose prop
+        >
+          {/* Add children prop if needed */}
+        </CustomDialog>
       </Stack>
     </>
   );

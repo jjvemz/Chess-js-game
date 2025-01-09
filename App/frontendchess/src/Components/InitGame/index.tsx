@@ -10,7 +10,7 @@ interface Player {
 
 interface InitGameProps {
   setRoom: (roomId: string) => void;
-  setOrientation: (orientation: string) => void;
+  setOrientation: (orientation: "white" | "black") => void; // Update the type to match the expected type
   setPlayers: (players: Player[]) => void;
 }
 
@@ -47,41 +47,41 @@ export default function InitGame({ setRoom, setOrientation, setPlayers }: InitGa
           });
         }}
       >
-      <TextField
-      autoFocus
-        margin="dense"
-        id="room"
-        label="Room ID"
-        name="room"
-        value={roomInput}
-        required
-        onChange={(e) => setRoomInput(e.target.value)}
-        type="text"
-        fullWidth
-        variant="standard"
-        error={Boolean(roomError)}
-        helperText={
-          !roomError ? "Ingrese el ID de la sala" : `ID invalido: ${roomError}`
-        }
-      />
+        <TextField
+          autoFocus
+          margin="dense"
+          id="room"
+          label="Room ID"
+          name="room"
+          value={roomInput}
+          required
+          onChange={(e) => setRoomInput(e.target.value)}
+          type="text"
+          fullWidth
+          variant="standard"
+          error={Boolean(roomError)}
+          helperText={
+            !roomError ? "Ingrese el ID de la sala" : `ID invalido: ${roomError}`
+          }
+        />
       </CustomDialog>
       <Button
         variant="contained"
         onClick={()=>{
-            console.log('Attempting to create room');
-            socket.emit("createRoom", {}, (roomId) => {
-              console.log('Received response from create room:', roomId);
-              if (roomId) {
-                console.log("Room created successfully:", roomId);
-                setRoom(roomId);
-                setOrientation("white");
-              }
-            });
+          console.log('Attempting to create room');
+          socket.emit("createRoom", {}, (roomId) => {
+            console.log('Received response from create room:', roomId);
+            if (roomId) {
+              console.log("Room created successfully:", roomId);
+              setRoom(roomId);
+              setOrientation("white");
+            }
+          });
         }}>
-            Comenzar partida
-        </Button>
+        Comenzar partida
+      </Button>
 
-        <Button
+      <Button
         onClick={() => {
           setRoomDialogOpen(true)
         }}

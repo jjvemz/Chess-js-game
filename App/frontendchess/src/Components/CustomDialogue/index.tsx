@@ -1,24 +1,36 @@
+import React, { ReactNode } from 'react';
+
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-export default function CustomDialog({ open, children, title, contentText, handleContinue }) {
+type CustomDialogueProps = {
+  open: boolean;
+  children?: ReactNode;
+  title: string;
+  contentText: string;
+  handleClose: () => void; 
+  handleContinue: () => void;
+};
+
+const CustomDialogue: React.FC<CustomDialogueProps> = ({ open, children, title, contentText, handleClose, handleContinue }) => {
   return (
-    <Dialog open={open}> {/*dialog container*/}
+    <Dialog open={open} onClose={handleClose}> 
       <DialogTitle>{title}</DialogTitle>
-      <DialogContent> {/* Main body of modal/dialog */}
-        <DialogContentText> {/* main text */}
+      <DialogContent> 
+        <DialogContentText>
           {contentText}
         </DialogContentText>
-        {children} {/* Other content */}
+        {children}
       </DialogContent>
-      <DialogActions> {/* Dialog action buttons */}
-        {/* Force users to make input without option to cancel */}
-        {/* <Button onClick={handleClose}>Cancel</Button> */}
-        <button onClick={handleContinue}>Continuar</button>
+      <DialogActions>
+        <button onClick={handleClose}>Close</button>
+        <button onClick={handleContinue}>Continue</button>
       </DialogActions>
     </Dialog>
   );
 }
+
+export default CustomDialogue;
