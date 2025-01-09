@@ -15,12 +15,12 @@ function App() {
   const [usernameSubmitted, setUsernameSubmitted] = useState(false);
 
   const [room, setRoom] = useState("");
-  const [orientationPlayer, setOrientationPlayer] = useState<"white" | "black">("white"); // Ensure the correct type
+  const [orientationPlayer, setOrientationPlayer] = useState<"white" | "black">("white"); 
   const [players, setPlayers] = useState<Player[]>([]);
 
   const cleanup = useCallback(()=>{
     setRoom("");
-    setOrientationPlayer("white"); // Ensure the correct type
+    setOrientationPlayer("white"); 
     setPlayers([]);
   },[])
 
