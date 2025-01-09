@@ -2,10 +2,12 @@ import { io } from "socket.io-client";
 
 console.log("Initializing socket connection...");
 
-const SOCKET_URL = import.meta.env.REACT_APP_WS_URL;
+const SOCKET_URL = import.meta.env.VITE_WS_URL;
+
+console.log(SOCKET_URL);
 
 if (!SOCKET_URL) {
-  console.error("ERROR: REACT_APP_WS_URL no está definida en las variables de entorno.");
+  console.error("ERROR: VITE_WS_URL no está definida en las variables de entorno.");
   throw new Error("No se puede inicializar la conexión WebSocket sin VITE_WS_URL.");
 }
 
