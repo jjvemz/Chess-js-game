@@ -1,3 +1,7 @@
 
 App/backendchess/.env
+App/backendchess/node_modules
 App/frontendchess/.env
+App/frontendchess/node_modules
+
+node_modules
