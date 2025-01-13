@@ -51,7 +51,7 @@ Before starting, ensure you have the following installed:
    yarn start
    ```
 
-5. Open your browser and navigate to `http://localhost:3000`.
+5. Open your browser and navigate to `http://localhost:5173`.
 
 ## Backend Repository
 
