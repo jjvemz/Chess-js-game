@@ -57,7 +57,7 @@ Before starting, ensure you have the following installed:
 
 The backend for this project handles real-time communication, room management, and game logic. You can find the backend repository here:
 
-[Backend]((https://github.com/jjvemz/chessbackend))
+[Backend](https://github.com/jjvemz/chessbackend)
 
 ## Technologies Used
 
