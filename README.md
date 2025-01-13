@@ -23,7 +23,7 @@ Before starting, ensure you have the following installed:
 1. Clone the repository:
 
    ```bash
-   git clone <your-frontend-repo-link>
+   git clone https://github.com/jjvemz/Chess-js-game
    cd <your-frontend-folder>
    ```
 
